@@ -3,7 +3,7 @@
   
 A synthetic Kotlin implementation of Curve25519. A fast Elliptic-curve Diffie-Hellman function, including x25519 key pairs, shared secrets, x25519 signatures, and the XVEdDSA VRF signature algorithm backed by Java code. Based on Signal [curve25519-java](https://github.com/signalapp/curve25519-java).  
 
-This implementation doesn't use a native C curve25519-donna and only relies on pure Java code of Signal. Thus, this is a downgrade version of Signal [curve25519-java](https://github.com/signalapp/curve25519-java) version in terms of dynamic curve provider.  
+This implementation doesn't use a native C curve25519-donna and only relies on pure Java code of Signal. Thus, this is a downgrade version of Signal [curve25519-java](https://github.com/signalapp/curve25519-java) in terms of dynamic curve provider.  
   
 ### Obtaining an instance  
 The caller initialize a singleton instance of Curve25519.  
