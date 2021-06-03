@@ -1,5 +1,5 @@
 
-<h1 align="center">curve25519-kotlin</h1>  
+# curve25519-kotlin
   
 A synthetic Kotlin implementation of Curve25519. a fast Elliptic-curve Diffie-Hellman function, including x25519 key pairs, shared secrets, x25519 signatures, and the XVEdDSA VRF signature algorithm backed by Java code. Based on Signal [curve25519-java](https://github.com/signalapp/curve25519-java).  
 
