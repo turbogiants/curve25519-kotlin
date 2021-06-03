@@ -1,14 +1,11 @@
 package org.creativeturbogiants.crypto.ed25519;
 
 import org.creativeturbogiants.crypto.java.*;
-import org.creativeturbogiants.crypto.java.fe_mul;
-import org.creativeturbogiants.crypto.java.Sha512;
-import org.creativeturbogiants.crypto.java.ge_p3;
 
-import static org.creativeturbogiants.crypto.java.fe_pow22523.fe_pow22523;
 import static org.creativeturbogiants.crypto.java.fe_cmov.fe_cmov;
 import static org.creativeturbogiants.crypto.java.fe_frombytes.fe_frombytes;
 import static org.creativeturbogiants.crypto.java.fe_invert.fe_invert;
+import static org.creativeturbogiants.crypto.java.fe_pow22523.fe_pow22523;
 import static org.creativeturbogiants.crypto.java.fe_tobytes.fe_tobytes;
 
 /**

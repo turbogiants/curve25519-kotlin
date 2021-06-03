@@ -1,19 +1,19 @@
 package org.creativeturbogiants.crypto.java;
 
-public class ge_add {
+public class ge_sub {
 
 //CONVERT #include "ge.h"
 
 /*
-r = p + q
+r = p - q
 */
 
-public static void ge_add(ge_p1p1 r,ge_p3 p,ge_cached q)
+public static void ge_sub(ge_p1p1 r, ge_p3 p, ge_cached q)
 {
   int[] t0 = new int[10];
-//CONVERT #include "ge_add.h"
+//CONVERT #include "ge_sub.h"
 
-/* qhasm: enter ge_add */
+/* qhasm: enter ge_sub */
 
 /* qhasm: fe X1 */
 
@@ -63,15 +63,15 @@ fe_add.fe_add(r.X,p.Y,p.X);
 /* asm 2: fe_sub.fe_sub(>YmX1=r.Y,<Y1=p.Y,<X1=p.X); */
 fe_sub.fe_sub(r.Y,p.Y,p.X);
 
-/* qhasm: A = YpX1*YpX2 */
-/* asm 1: fe_mul.fe_mul(>A=fe#3,<YpX1=fe#1,<YpX2=fe#15); */
-/* asm 2: fe_mul.fe_mul(>A=r.Z,<YpX1=r.X,<YpX2=q.YplusX); */
-fe_mul.fe_mul(r.Z,r.X,q.YplusX);
+/* qhasm: A = YpX1*YmX2 */
+/* asm 1: fe_mul.fe_mul(>A=fe#3,<YpX1=fe#1,<YmX2=fe#16); */
+/* asm 2: fe_mul.fe_mul(>A=r.Z,<YpX1=r.X,<YmX2=q.YminusX); */
+fe_mul.fe_mul(r.Z,r.X,q.YminusX);
 
-/* qhasm: B = YmX1*YmX2 */
-/* asm 1: fe_mul.fe_mul(>B=fe#2,<YmX1=fe#2,<YmX2=fe#16); */
-/* asm 2: fe_mul.fe_mul(>B=r.Y,<YmX1=r.Y,<YmX2=q.YminusX); */
-fe_mul.fe_mul(r.Y,r.Y,q.YminusX);
+/* qhasm: B = YmX1*YpX2 */
+/* asm 1: fe_mul.fe_mul(>B=fe#2,<YmX1=fe#2,<YpX2=fe#15); */
+/* asm 2: fe_mul.fe_mul(>B=r.Y,<YmX1=r.Y,<YpX2=q.YplusX); */
+fe_mul.fe_mul(r.Y,r.Y,q.YplusX);
 
 /* qhasm: C = T2d2*T1 */
 /* asm 1: fe_mul.fe_mul(>C=fe#4,<T2d2=fe#18,<T1=fe#14); */
@@ -98,15 +98,15 @@ fe_sub.fe_sub(r.X,r.Z,r.Y);
 /* asm 2: fe_add.fe_add(>Y3=r.Y,<A=r.Z,<B=r.Y); */
 fe_add.fe_add(r.Y,r.Z,r.Y);
 
-/* qhasm: Z3 = D+C */
-/* asm 1: fe_add.fe_add(>Z3=fe#3,<D=fe#5,<C=fe#4); */
-/* asm 2: fe_add.fe_add(>Z3=r.Z,<D=t0,<C=r.T); */
-fe_add.fe_add(r.Z,t0,r.T);
+/* qhasm: Z3 = D-C */
+/* asm 1: fe_sub.fe_sub(>Z3=fe#3,<D=fe#5,<C=fe#4); */
+/* asm 2: fe_sub.fe_sub(>Z3=r.Z,<D=t0,<C=r.T); */
+fe_sub.fe_sub(r.Z,t0,r.T);
 
-/* qhasm: T3 = D-C */
-/* asm 1: fe_sub.fe_sub(>T3=fe#4,<D=fe#5,<C=fe#4); */
-/* asm 2: fe_sub.fe_sub(>T3=r.T,<D=t0,<C=r.T); */
-fe_sub.fe_sub(r.T,t0,r.T);
+/* qhasm: T3 = D+C */
+/* asm 1: fe_add.fe_add(>T3=fe#4,<D=fe#5,<C=fe#4); */
+/* asm 2: fe_add.fe_add(>T3=r.T,<D=t0,<C=r.T); */
+fe_add.fe_add(r.T,t0,r.T);
 
 /* qhasm: return */
 }

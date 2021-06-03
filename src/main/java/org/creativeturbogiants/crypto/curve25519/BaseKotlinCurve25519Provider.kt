@@ -2,10 +2,10 @@
 
 package org.creativeturbogiants.crypto.curve25519
 
-import org.creativeturbogiants.crypto.java.Sha512
-import org.creativeturbogiants.crypto.java.curve_sigs
 import org.creativeturbogiants.crypto.ed25519.veddsa_sigs
+import org.creativeturbogiants.crypto.java.curve_sigs
 import org.creativeturbogiants.crypto.java.scalarmult
+import org.creativeturbogiants.crypto.java.Sha512
 import org.creativeturbogiants.crypto.utils.byte
 import kotlin.experimental.and
 import kotlin.experimental.or

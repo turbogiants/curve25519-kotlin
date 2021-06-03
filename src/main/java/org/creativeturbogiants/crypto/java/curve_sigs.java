@@ -35,9 +35,9 @@ public class curve_sigs {
     }
 
     public static int curve25519_sign(Sha512 sha512provider, byte[] signature_out,
-                        byte[] curve25519_privkey,
-                        byte[] msg, int msg_len,
-                        byte[] random)
+                                      byte[] curve25519_privkey,
+                                      byte[] msg, int msg_len,
+                                      byte[] random)
     {
       ge_p3 ed_pubkey_point = new ge_p3(); /* Ed25519 pubkey point */
       byte[] ed_pubkey = new byte[32]; /* Ed25519 encoded pubkey */

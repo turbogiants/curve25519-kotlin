@@ -1,6 +1,6 @@
 package org.creativeturbogiants.crypto.java;
 
-public class ge_madd {
+public class ge_add {
 
 //CONVERT #include "ge.h"
 
@@ -8,12 +8,12 @@ public class ge_madd {
 r = p + q
 */
 
-public static void ge_madd(ge_p1p1 r,ge_p3 p,ge_precomp q)
+public static void ge_add(ge_p1p1 r, ge_p3 p, ge_cached q)
 {
   int[] t0 = new int[10];
-//CONVERT #include "ge_madd.h"
+//CONVERT #include "ge_add.h"
 
-/* qhasm: enter ge_madd */
+/* qhasm: enter ge_add */
 
 /* qhasm: fe X1 */
 
@@ -21,13 +21,17 @@ public static void ge_madd(ge_p1p1 r,ge_p3 p,ge_precomp q)
 
 /* qhasm: fe Z1 */
 
+/* qhasm: fe Z2 */
+
 /* qhasm: fe T1 */
 
-/* qhasm: fe ypx2 */
+/* qhasm: fe ZZ */
 
-/* qhasm: fe ymx2 */
+/* qhasm: fe YpX2 */
 
-/* qhasm: fe xy2d2 */
+/* qhasm: fe YmX2 */
+
+/* qhasm: fe T2d2 */
 
 /* qhasm: fe X3 */
 
@@ -59,25 +63,30 @@ fe_add.fe_add(r.X,p.Y,p.X);
 /* asm 2: fe_sub.fe_sub(>YmX1=r.Y,<Y1=p.Y,<X1=p.X); */
 fe_sub.fe_sub(r.Y,p.Y,p.X);
 
-/* qhasm: A = YpX1*ypx2 */
-/* asm 1: fe_mul.fe_mul(>A=fe#3,<YpX1=fe#1,<ypx2=fe#15); */
-/* asm 2: fe_mul.fe_mul(>A=r.Z,<YpX1=r.X,<ypx2=q.yplusx); */
-fe_mul.fe_mul(r.Z,r.X,q.yplusx);
+/* qhasm: A = YpX1*YpX2 */
+/* asm 1: fe_mul.fe_mul(>A=fe#3,<YpX1=fe#1,<YpX2=fe#15); */
+/* asm 2: fe_mul.fe_mul(>A=r.Z,<YpX1=r.X,<YpX2=q.YplusX); */
+fe_mul.fe_mul(r.Z,r.X,q.YplusX);
 
-/* qhasm: B = YmX1*ymx2 */
-/* asm 1: fe_mul.fe_mul(>B=fe#2,<YmX1=fe#2,<ymx2=fe#16); */
-/* asm 2: fe_mul.fe_mul(>B=r.Y,<YmX1=r.Y,<ymx2=q.yminusx); */
-fe_mul.fe_mul(r.Y,r.Y,q.yminusx);
+/* qhasm: B = YmX1*YmX2 */
+/* asm 1: fe_mul.fe_mul(>B=fe#2,<YmX1=fe#2,<YmX2=fe#16); */
+/* asm 2: fe_mul.fe_mul(>B=r.Y,<YmX1=r.Y,<YmX2=q.YminusX); */
+fe_mul.fe_mul(r.Y,r.Y,q.YminusX);
 
-/* qhasm: C = xy2d2*T1 */
-/* asm 1: fe_mul.fe_mul(>C=fe#4,<xy2d2=fe#17,<T1=fe#14); */
-/* asm 2: fe_mul.fe_mul(>C=r.T,<xy2d2=q.xy2d,<T1=p.T); */
-fe_mul.fe_mul(r.T,q.xy2d,p.T);
+/* qhasm: C = T2d2*T1 */
+/* asm 1: fe_mul.fe_mul(>C=fe#4,<T2d2=fe#18,<T1=fe#14); */
+/* asm 2: fe_mul.fe_mul(>C=r.T,<T2d2=q.T2d,<T1=p.T); */
+fe_mul.fe_mul(r.T,q.T2d,p.T);
 
-/* qhasm: D = 2*Z1 */
-/* asm 1: fe_add.fe_add(>D=fe#5,<Z1=fe#13,<Z1=fe#13); */
-/* asm 2: fe_add.fe_add(>D=t0,<Z1=p.Z,<Z1=p.Z); */
-fe_add.fe_add(t0,p.Z,p.Z);
+/* qhasm: ZZ = Z1*Z2 */
+/* asm 1: fe_mul.fe_mul(>ZZ=fe#1,<Z1=fe#13,<Z2=fe#17); */
+/* asm 2: fe_mul.fe_mul(>ZZ=r.X,<Z1=p.Z,<Z2=q.Z); */
+fe_mul.fe_mul(r.X,p.Z,q.Z);
+
+/* qhasm: D = 2*ZZ */
+/* asm 1: fe_add.fe_add(>D=fe#5,<ZZ=fe#1,<ZZ=fe#1); */
+/* asm 2: fe_add.fe_add(>D=t0,<ZZ=r.X,<ZZ=r.X); */
+fe_add.fe_add(t0,r.X,r.X);
 
 /* qhasm: X3 = A-B */
 /* asm 1: fe_sub.fe_sub(>X3=fe#1,<A=fe#3,<B=fe#2); */
