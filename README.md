@@ -40,7 +40,7 @@ val validSignature: Boolean     = cipher.verifySignature(publicKey, message, sig
 ```  
   
 ### Ported Implementation
-Additional implementation and improvements originated from signal [pull request](https://github.com/signalapp/curve25519-java/pulls) request were added in this codebase.  
+Additional implementation and improvements originated from signal [pull request](https://github.com/signalapp/curve25519-java/pulls) were added in this codebase.  
   | Implementation                     | Author   |
 |--------------------------------------|------------|
 | Edwards-curve Digital Signature Algorithm                           | [Java VRF support by k-s-t-i · Pull Request #37](https://github.com/signalapp/curve25519-java/pull/37/commits/10f25dfa3cd6a5c4783b2b5a2f2f842fb0c72ca6) |
