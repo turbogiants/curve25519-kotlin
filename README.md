@@ -59,9 +59,19 @@ This implementation is derived from the original work of Open Whisper System Sig
 - [The XEdDSA and VXEdDSA Signature Schemes](https://signal.org/docs/specifications/xeddsa) - Trevor Perrin, 2016
 
 ## License  
-  
-Copyright 2015 Open Whisper Systems 
-<br>
-Copyright 2021 Creative Turbo Giants  
-  
+
+``` 
+Copyright (C) 2015 Open Whisper Systems
+Copyright (C) 2021 Creative Turbo Giants
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or 
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+```
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
