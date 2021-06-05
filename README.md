@@ -48,6 +48,7 @@ Additional implementation and improvements originated from signal [pull request]
   
 ## Todo  
 - [ ] Add curve25519-donna C implementation [JNI]  **(Optional)**
+- [ ] Migrate Java code to Kotlin
   
 ## Credits
 This implementation is derived from the original work of Open Whisper System Signal [curve25519-java](https://github.com/signalapp/curve25519-java)
