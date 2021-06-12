@@ -1,8 +1,25 @@
+@file:Suppress("unused")
+
 package org.creativeturbogiants.crypto.curve25519
 
 import org.creativeturbogiants.crypto.utils.byte
 
 class Curve25519 private constructor(private val provider: Curve25519Provider) {
+
+    companion object {
+
+        private var INSTANCE: Curve25519? = null
+
+        @Throws(NoSuchProviderException::class)
+        fun getInstance(): Curve25519 {
+            if (INSTANCE == null) {
+                val kotlinCurve = KotlinCurve25519Provider()
+                INSTANCE = Curve25519(kotlinCurve)
+            }
+            return INSTANCE as Curve25519
+        }
+
+    }
 
     fun isNative() = provider.isNative
 
@@ -63,14 +80,5 @@ class Curve25519 private constructor(private val provider: Curve25519Provider) {
         }
 
         return provider.verifyVrfSignature(publicKey, message, signature)
-    }
-
-    companion object {
-
-        @Throws(NoSuchProviderException::class)
-        fun getInstance(): Curve25519 {
-            return Curve25519(KotlinCurve25519Provider())
-        }
-
     }
 }
