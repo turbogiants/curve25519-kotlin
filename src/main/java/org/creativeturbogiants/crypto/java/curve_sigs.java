@@ -12,7 +12,7 @@ public class curve_sigs {
       int[] mont_x = new int[10];
 
       /* Perform a fixed-base multiplication of the Edwards base point,
-         (which is efficient due to precalculated tables), then convert
+         (which is efficient due to pre-calculated tables), then convert
          to the Curve25519 montgomery-format public key.  In particular,
          convert Curve25519's "montgomery" x-coordinate into an Ed25519
          "edwards" y-coordinate:
