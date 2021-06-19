@@ -3,7 +3,7 @@ package org.creativeturbogiants.crypto.curve25519
 import org.creativeturbogiants.crypto.utils.byte
 import java.security.SecureRandom
 
-class JCESecureRandomProvider : SecureRandomProvider {
+class KCESecureRandomProvider : SecureRandomProvider {
 
     override fun nextByte(output: byte) {
         SecureRandom().nextBytes(output)
