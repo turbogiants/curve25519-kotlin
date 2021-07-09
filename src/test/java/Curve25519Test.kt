@@ -1,23 +1,30 @@
-package org.creativeturbogiants.crypto
+package org.turbogiants.crypto
 
 import junit.framework.TestCase
-import org.creativeturbogiants.crypto.curve25519.Curve25519
-import org.creativeturbogiants.crypto.curve25519.KotlinCurve25519Provider
-import org.creativeturbogiants.crypto.ed25519.fe_isequal
+import org.turbogiants.crypto.curve25519.Curve25519
+import org.turbogiants.crypto.curve25519.Curve25519.Companion.getInstance
+import org.turbogiants.crypto.curve25519.KotlinCurve25519Provider
+import org.turbogiants.crypto.curve25519.NoSuchProviderException
+import org.turbogiants.crypto.curve25519.VrfSignatureVerificationFailedException
+import org.turbogiants.crypto.ed25519.fe_isequal
 import org.junit.Assert
 import org.junit.Test
+import java.security.InvalidKeyException
+import java.security.NoSuchAlgorithmException
+import kotlin.experimental.xor
+
 
 class Curve25519Test : TestCase() {
 
     private val cipher = Curve25519.getInstance()
 
-    private val aliceKeyPair    = cipher.generateKeyPair()
-    private val bobKeyPair      = cipher.generateKeyPair()
+    private val aliceKeyPair = cipher.generateKeyPair()
+    private val bobKeyPair = cipher.generateKeyPair()
 
     @Test
     fun `test shared secret key`() {
-        val aliceSecretKey      = aliceSecretKey()
-        val bobSecretKey        = bobSecretKey()
+        val aliceSecretKey = aliceSecretKey()
+        val bobSecretKey = bobSecretKey()
 
         Assert.assertArrayEquals(aliceSecretKey, bobSecretKey)
     }
@@ -42,8 +49,8 @@ class Curve25519Test : TestCase() {
     @Test
     fun `test random agreement`() {
         for (i in 0..100) {
-            val aliceSecretKey      = aliceSecretKey()
-            val bobSecretKey        = bobSecretKey()
+            val aliceSecretKey = aliceSecretKey()
+            val bobSecretKey = bobSecretKey()
 
             Assert.assertArrayEquals(aliceSecretKey, bobSecretKey)
         }
@@ -51,9 +58,9 @@ class Curve25519Test : TestCase() {
 
     @Test
     fun `test key gen`() {
-        val curveProvider   = KotlinCurve25519Provider()
+        val curveProvider = KotlinCurve25519Provider()
 
-        val `in`            = ByteArray(32)
+        val `in` = ByteArray(32)
         var out: ByteArray? = null
 
         `in`[0] = 123
@@ -78,7 +85,7 @@ class Curve25519Test : TestCase() {
 
     @Test
     fun testFeIsequal1() {
-        val one = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+        val one = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         val zero = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         Assert.assertEquals(0, fe_isequal.fe_isequal(one, zero))
     }
@@ -96,10 +103,43 @@ class Curve25519Test : TestCase() {
         val zero = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         assertEquals(1, fe_isequal.fe_isequal(one, zero))
     }
+
     @Test
     fun testFeIsequal4() {
         val one = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         val zero = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
         assertEquals(0, fe_isequal.fe_isequal(one, zero))
     }
+
+    @Throws(NoSuchAlgorithmException::class, InvalidKeyException::class, NoSuchProviderException::class)
+    fun testLargeSignatures() {
+        val (publicKey, privateKey) = Curve25519.getInstance().generateKeyPair()
+        val message = ByteArray(1024 * 1024)
+        val signature: ByteArray = Curve25519.getInstance().calculateSignature(privateKey, message)
+
+        assertTrue(Curve25519.getInstance().verifySignature(publicKey, message, signature))
+
+        signature[0] = signature[0] xor 0x01
+        assertFalse(Curve25519.getInstance().verifySignature(publicKey, message, signature))
+    }
+
+    @Throws(NoSuchProviderException::class, IllegalArgumentException::class)
+    fun testVRFSignatures() {
+        val (publicKey, privateKey) = getInstance().generateKeyPair()
+        val message1 = ByteArray(1024)
+        val message2 = ByteArray(512)
+        val signature1: ByteArray = getInstance().calculateVrfSignature(privateKey, message1)
+        val signature2: ByteArray = getInstance().calculateVrfSignature(privateKey, message2)
+        try {
+            val vrf_out: ByteArray = getInstance().verifyVrfSignature(publicKey, message1, signature1)
+        } catch (e: VrfSignatureVerificationFailedException) {
+            throw AssertionError("Sig verification failed!")
+        }
+        try {
+            val vrf_out: ByteArray = getInstance().verifyVrfSignature(publicKey, message1, signature2)
+            throw AssertionError("Sig verification succeeded!")
+        } catch (e: VrfSignatureVerificationFailedException) {
+        }
+    }
+
 }
